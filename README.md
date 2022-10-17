@@ -10,9 +10,11 @@ A JVM, use standard JVM installation for your linux box, in a RH box use the com
 sudo yum install java-11-openjdk
 ```
 
-Archives for EAP and IBAMOE product installation
+Download archives for EAP and IBAMOE product installation
 
 ### From IBM Passport Advantage
+
+https://www.ibm.com/software/passportadvantage/
 
 Login at https://www.ibm.com/software/passportadvantage/pao_customer.html
 
@@ -32,6 +34,9 @@ IBAMOE-8.0-BC7.zip
 IBAMOE-8.0-KS8.zip
 </code>
 
+#### More infos at IBM Business Automation Manager Open Editions 8.0 download document
+
+https://www.ibm.com/support/pages/node/6596913
 
 ### From RedHat Customer Portal
 
@@ -52,6 +57,8 @@ jboss-eap-7.4.0.zip
 jboss-eap-7.4.7-patch.zip
 </code>
 
+
+Copy the files you downloaded in a folder accessible from the installation, the complete path must then be set as the value of the <b>INST_SOURCE_FOLDER</b> variable (next steps).
 
 ## Clone this repo
 

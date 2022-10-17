@@ -32,6 +32,15 @@ function dumpEnvVars () {
 
 echo "=== Installing as user '"$USER"' in folder "${EAP_HOME}
 
+function javaExists () {
+    if ! command -v java &> /dev/null
+    then
+        echo "*** Error: java could not be found"
+        echo "    run: sudo yum install java-11-openjdk"
+        exit
+    fi
+}
+
 function archiveExists() {
     if [ ! -f "${INST_SOURCE_EAP}" ]; then
         echo "*** Error: ${INST_SOURCE_EAP} doesn't exists"
@@ -50,6 +59,9 @@ function archiveExists() {
         exit
     fi
 }
+
+
+javaExists
 
 archiveExists
 
