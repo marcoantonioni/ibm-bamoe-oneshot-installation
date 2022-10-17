@@ -13,6 +13,19 @@ sudo yum install java-11-openjdk
 Archives for EAP and IBAMOE product installation
 
 ### From IBM Passport Advantage
+
+Login at https://www.ibm.com/software/passportadvantage/pao_customer.html
+
+Search for:
+
+<code>
+IBM Business Automation Manager Open Editions 8.0 - Business Central for EAP 7 Multilingual (IBAMOE-8.0-BC7.zip) - M06VVML
+
+IBM Business Automation Manager Open Editions 8.0 - KIE Server EE8 Multilingual (IBAMOE-8.0-KS8.zip) - M06VYML
+</code>
+
+download files:
+
 <code>
 IBAMOE-8.0-BC7.zip
 
@@ -20,7 +33,19 @@ IBAMOE-8.0-KS8.zip
 </code>
 
 
-### From RedHat Portal
+### From RedHat Customer Portal
+
+Red Hat Customer Portal (https://access.redhat.com)
+
+1. Log in to the Red Hat Customer Portal .
+2. Click Downloads.
+3. Select Red Hat JBoss Enterprise Application Platform in the Product Downloads list.
+4. In the Version drop-down list, select 7.4.
+5. Find Red Hat JBoss Enterprise Application Platform 7.4.0 in the list and click the Download
+link.
+
+download files:
+
 <code>
 jboss-eap-7.4.0.zip
 
