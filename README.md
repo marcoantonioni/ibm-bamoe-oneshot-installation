@@ -10,6 +10,24 @@ A JVM, use standard JVM installation for your linux box, in a RH box use the com
 sudo yum install java-11-openjdk
 ```
 
+Archives for EAP and IBAMOE product installation
+
+### From IBM Passport Advantage
+<code>
+IBAMOE-8.0-BC7.zip
+
+IBAMOE-8.0-KS8.zip
+</code>
+
+
+### From RedHat Portal
+<code>
+jboss-eap-7.4.0.zip
+
+jboss-eap-7.4.7-patch.zip
+</code>
+
+
 ## Clone this repo
 
 ```
