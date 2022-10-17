@@ -1,0 +1,1 @@
+# ibm-bamoe-oneshot-installation
