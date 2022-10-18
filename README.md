@@ -104,6 +104,7 @@ FOLDER_SHARED=/opt
 
 BC_ADMIN_USER=admin
 BC_ADMIN_PWD=passw0rd
+KIE_CTRL_PWD=newPassw0rd
 ```
 
 Save propetries file 
