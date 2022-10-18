@@ -156,7 +156,7 @@ Use your browser and login at Business Central console http://localhost:8080/bus
 ### Enable service for autostart
 
 ```
-./disableService.sh -p ./ibm-bamoe-1shot-install.properties -c y
+./enableService.sh -p ./ibm-bamoe-1shot-install.properties -c y
 ```
 
 ### Disable service for autostart
