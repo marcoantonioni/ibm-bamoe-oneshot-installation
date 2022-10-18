@@ -1,5 +1,8 @@
 #/bin/bash
 
+CONFIG_SERVICE=""
+REMOVE_TEMP=""
+
 # read params
 while getopts p:r:s: flag
 do
@@ -12,6 +15,7 @@ done
 
 REMOVE_TEMP=$(echo ${REMOVE_TEMP} | awk '{print tolower($0)}')
 CONFIG_SERVICE=$(echo ${CONFIG_SERVICE} | awk '{print tolower($0)}')
+
 REMOVE_TEMP=${REMOVE_TEMP:0:1}
 CONFIG_SERVICE=${CONFIG_SERVICE:0:1}
 
@@ -147,6 +151,9 @@ cp ${EAP_HOME}/standalone/configuration/standalone-full.xml ${EAP_HOME}/standalo
 sed -i '/<!--.*-->/d' ${EAP_HOME}/standalone/configuration/standalone.xml
 sed -i 's/<!--//g' ${EAP_HOME}/standalone/configuration/standalone.xml
 sed -i 's/-->//g' ${EAP_HOME}/standalone/configuration/standalone.xml
+sed -i 's/name="org.kie.server.controller.pwd" value="controllerUser1234;"/name="org.kie.server.controller.pwd" value="'${KIE_CTRL_PWD}'"/g' ${EAP_HOME}/standalone/configuration/standalone.xml
+sed -i 's/name="org.kie.server.pwd" value="controllerUser1234;"/name="org.kie.server.pwd" value="'${KIE_CTRL_PWD}'"/g' ${EAP_HOME}/standalone/configuration/standalone.xml
+
 
 echo "=== Configure KIE / BC"
 ${EAP_HOME}/bin/jboss-cli.sh --commands="embed-server --std-out=echo,/subsystem=elytron/filesystem-realm=ApplicationRealm:add-identity(identity="${KIE_CTRL_USER}"),/subsystem=elytron/filesystem-realm=ApplicationRealm:set-password(identity="${KIE_CTRL_USER}", clear={password="${KIE_CTRL_PWD}"}),/subsystem=elytron/filesystem-realm=ApplicationRealm:add-identity-attribute(identity="${KIE_CTRL_USER}", name=role, value=[admin,rest-all,kie-server])" > /dev/null 2>&1
@@ -161,7 +168,7 @@ then
     ./enableService.sh
 else
     echo "=== now execute command: ${EAP_HOME}/bin/standalone.sh" 
-    echo "=== or run service configuration with XYZ.sh"
+    echo "=== or run service configuration with ./enableService.sh"
 fi
 
 echo "=== follow the server log using command: tail -n 10000 -f ${EAP_HOME}/standalone/log/server.log"

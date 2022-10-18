@@ -2,13 +2,15 @@
 
 
 # read params
-while getopts p: flag
+while getopts p:c: flag
 do
     case "${flag}" in
         p) PROPS_FILE=${OPTARG};;
+        c) CONFIRM=${OPTARG};;
     esac
 done
 
+CONFIRM=${CONFIRM:0:1}
 
 if [[ -z ${PROPS_FILE}"" ]];
 then
@@ -69,12 +71,19 @@ echo "=== Uninstalling "${EAP_HOME}
 echo "    WARNING: this script will erase foder "${EAP_HOME}
 echo ""
 
-while true; do
-    read -p "Do you really want to uninstall jboss-eap and erase the folder "${EAP_HOME}" ? [y/n] " yn
-    case $yn in
-        [Yy]* ) uninstall; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+    if [[ $CONFIRM"" == "y" ]];
+    then
+        uninstall
+    else 
+
+        while true; do
+            read -p "Do you really want to uninstall jboss-eap and erase the folder "${EAP_HOME}" ? [y/n] " yn
+            case $yn in
+                [Yy]* ) uninstall; break;;
+                [Nn]* ) exit;;
+                * ) echo "Please answer yes or no.";;
+            esac
+        done
+    fi
+
 

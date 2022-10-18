@@ -116,6 +116,21 @@ Run the following command to install and measure the elapsed time
 time ./ibm-bamoe-1shot-install.sh
 ```
 
+or specify properties file (-p), autostart as a service (-s), clean temporary installation directory (-r)
+
+```
+./ibm-bamoe-1shot-install.sh -p ./ibm-bamoe-1shot-install.properties -s y -r y
+```
+
+use the following parameters to specify
+
+<b>-p</b> <i>..path-of-properties-file-name..</i> # if located in different folder 
+
+<b>-c</b> <i>[y/n]</i> # to clear the temporary folder used to install 
+
+<b>-s</b> <i>[y/n]</i> # to configure the service for autostart option
+
+
 ## Execute the standalone server 
 
 Use the command 
@@ -135,6 +150,27 @@ tail -n 10000 -f <your-destination-installation-folder>/standalone/log/server.lo
 ## Access Business Central console
 
 Use your browser and login at Business Central console http://localhost:8080/business-central/kie-wb.jsp using credentials defined in BC_ADMIN_USER and BC_ADMIN_PWD
+
+## Other optional commands
+
+### Enable service for autostart
+
+```
+./disableService.sh -p ./ibm-bamoe-1shot-install.properties -c y
+```
+
+### Disable service for autostart
+
+```
+./disableService.sh -p ./ibm-bamoe-1shot-install.properties -c y
+```
+
+### Uninstal
+
+Uninstall the product identied by properties file and force without asking confirmation (-c)
+```
+./uninstal-bamoe.sh -p ./ibm-bamoe-1shot-install.properties -c y
+```
 
 
 ## Conclusion

@@ -70,7 +70,7 @@ function disable () {
     sudo rm --force /etc/default/jboss-eap.conf
 }
 
-echo "=== Disbling jboss-eap service"
+echo "=== Disabling jboss-eap service"
 
 SUDOER=$(sudo -v)
 if [[ -z $SUDOER"" ]]; 
