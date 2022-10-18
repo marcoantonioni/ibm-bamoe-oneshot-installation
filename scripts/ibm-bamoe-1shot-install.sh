@@ -1,8 +1,41 @@
 #/bin/bash
 
-# if file props
+# read params
+while getopts p:r:s: flag
+do
+    case "${flag}" in
+        p) PROPS_FILE=${OPTARG};;
+        r) REMOVE_TEMP=${OPTARG};;
+        s) CONFIG_SERVICE=${OPTARG};;
+    esac
+done
 
-. ./ibm-bamoe-1shot-install.properties
+REMOVE_TEMP=$(echo ${REMOVE_TEMP} | awk '{print tolower($0)}')
+CONFIG_SERVICE=$(echo ${CONFIG_SERVICE} | awk '{print tolower($0)}')
+REMOVE_TEMP=${REMOVE_TEMP:0:1}
+CONFIG_SERVICE=${CONFIG_SERVICE:0:1}
+
+echo "=== Installing as user '"$USER"' in folder "${EAP_HOME}
+
+# echo "Property file: ${PROPS_FILE}";
+# echo "Remove temporary installation folder: ${REMOVE_TEMP}";
+# echo "Configure service: ${CONFIG_SERVICE}";
+
+if [[ -z ${PROPS_FILE}"" ]];
+then
+    # load default props file
+    echo "Sourcing default properties file "
+    . ./ibm-bamoe-1shot-install.properties
+else
+    if [[ -f ${PROPS_FILE} ]];
+    then
+        echo "Sourcing properties file "${PROPS_FILE}
+        . ${PROPS_FILE}
+    else
+        echo "Error properties file "${PROPS_FILE}" not found !!!"
+        exit
+    fi
+fi
 
 function dumpEnvVars () {
     echo "============= ENV VARs ============="
@@ -29,8 +62,6 @@ function dumpEnvVars () {
 }
 
 # dumpEnvVars
-
-echo "=== Installing as user '"$USER"' in folder "${EAP_HOME}
 
 function javaExists () {
     if ! command -v java &> /dev/null
@@ -75,8 +106,8 @@ fi
 
 echo "=== Extracting EAP binaries"
 mkdir -p ${INST_BASE_DIR}/tempinst
-unzip -q ${INST_SOURCE_EAP} -d ${INST_BASE_DIR}/tempinst 
-mv ${INST_BASE_DIR}/tempinst/${EAP_EXPAND_FOLDER} ${INST_BASE_DIR}
+unzip -o -q ${INST_SOURCE_EAP} -d ${INST_BASE_DIR}/tempinst 
+mv --force ${INST_BASE_DIR}/tempinst/${EAP_EXPAND_FOLDER} ${INST_BASE_DIR}
 
 echo "=== Updating EAP configuration"
 cp ${EAP_HOME}/bin/init.d/jboss-eap.conf ${EAP_HOME}/bin/init.d/jboss-eap.conf.original
@@ -95,11 +126,11 @@ ${EAP_HOME}/bin/jboss-cli.sh --file=${INST_BASE_DIR}/tempinst/patch-info.txt
 
 echo "=== Extracting Business Central binaries"
 mkdir -p ${INST_BASE_DIR}/tempinst/bc
-unzip -q ${INST_SOURCE_BC} -d ${INST_BASE_DIR}/tempinst/bc
+unzip -o -q ${INST_SOURCE_BC} -d ${INST_BASE_DIR}/tempinst/bc
 
 echo "=== Extracting KIE binaries"
 mkdir -p ${INST_BASE_DIR}/tempinst/kie
-unzip -q ${INST_SOURCE_KS} -d ${INST_BASE_DIR}/tempinst/kie 
+unzip -o -q ${INST_SOURCE_KS} -d ${INST_BASE_DIR}/tempinst/kie 
 
 
 echo "=== Deploying BC and KIE apps"
@@ -124,7 +155,28 @@ echo "=== Configure admin user '"${BC_ADMIN_USER}"'"
 ${EAP_HOME}/bin/jboss-cli.sh --commands="embed-server --std-out=echo,/subsystem=elytron/filesystem-realm=ApplicationRealm:add-identity(identity="${BC_ADMIN_USER}"),/subsystem=elytron/filesystem-realm=ApplicationRealm:set-password(identity="${BC_ADMIN_USER}", clear={password="${BC_ADMIN_PWD}"}),/subsystem=elytron/filesystem-realm=ApplicationRealm:add-identity-attribute(identity="${BC_ADMIN_USER}", name=role, value=[admin,rest-all,kie-server])" > /dev/null 2>&1
 
 echo "=== Installation complete."
-echo "=== now execute command: ${EAP_HOME}/bin/standalone.sh" 
-echo "=== or run service configuration with XYZ.sh"
+
+if [[ ${CONFIG_SERVICE}"" == "y" ]];
+then
+    ./enableService.sh
+else
+    echo "=== now execute command: ${EAP_HOME}/bin/standalone.sh" 
+    echo "=== or run service configuration with XYZ.sh"
+fi
+
 echo "=== follow the server log using command: tail -n 10000 -f ${EAP_HOME}/standalone/log/server.log"
 
+if [[ ${REMOVE_TEMP}"" == "y" ]];
+then
+    rm -fR ${INST_BASE_DIR}/tempinst
+else
+    echo ""
+    while true; do
+        read -p "Remove temporary folder installation "${INST_BASE_DIR}/tempinst" ? [y/n] " yn
+        case $yn in
+            [Yy]* ) rm -fR ${INST_BASE_DIR}/tempinst; break;;
+            [Nn]* ) exit;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+fi
