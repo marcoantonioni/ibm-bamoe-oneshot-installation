@@ -34,6 +34,27 @@ IBAMOE-8.0-BC7.zip
 IBAMOE-8.0-KS8.zip
 </code>
 
+#### UPDATE october 2022
+
+From the first fix available the package nomenclature has changed.
+
+To install a new environment directly using the latest version/fix available search and download from IBM Fix Central (https://www.ibm.com/support/fixcentral, Product selector* as "IBM Business Automation Manager Open Editions") all the archives you want to install/update, for example
+
+<code>
+bamoe-8.0.1-business-central-eap7-deployable.zip
+
+bamoe-8.0.1-kie-server-ee8.zip
+</code>
+
+use for example the following setting in the properties file
+
+<code>
+BAMOE_BC_NAME=bamoe-8.0.1-business-central-eap7-deployable
+
+BAMOE_KS_NAME=bamoe-8.0.1-kie-server-ee8
+</code>
+
+
 #### More infos at IBM Business Automation Manager Open Editions 8.0 download document
 
 https://www.ibm.com/support/pages/node/6596913
@@ -107,6 +128,12 @@ BC_ADMIN_PWD=passw0rd
 KIE_CTRL_PWD=newPassw0rd
 ```
 
+Or if you are installing latest fixes for example
+```
+BAMOE_BC_NAME=bamoe-8.0.1-business-central-eap7-deployable
+BAMOE_KS_NAME=bamoe-8.0.1-kie-server-ee8
+```
+
 Save propetries file 
 
 ## Start installation
@@ -151,6 +178,8 @@ tail -n 10000 -f <your-destination-installation-folder>/standalone/log/server.lo
 ## Access Business Central console
 
 Use your browser and login at Business Central console http://localhost:8080/business-central/kie-wb.jsp using credentials defined in BC_ADMIN_USER and BC_ADMIN_PWD
+
+To check the current product version/fix from the user menu (at the top right) select the "About" menu.
 
 ## Other optional commands
 
