@@ -4,8 +4,12 @@
 
 ## Configuration
 
-## DB Setup
+### KieServer User
 
 ## KieServer configuration
 
-###
+### DB Setup
+
+### JDBC drivers
+
+### Datasource & Driver
