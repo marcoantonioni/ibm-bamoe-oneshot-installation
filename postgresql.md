@@ -205,9 +205,12 @@ In '<datasources>' section add datasource (connection url, credentials) and driv
     </drivers>
 ```
 
-Start BAMOE server
-```
-```
+Start BAMOE server using the updated configuration.
 
+Login in Business Central with your browser, enter the 'admin' page the select datasources section. 
+
+Click on 'PostgresDS' datasource the open 'public' schema.
+
+The tables are here.
 
 ## TBD Quartz tables
