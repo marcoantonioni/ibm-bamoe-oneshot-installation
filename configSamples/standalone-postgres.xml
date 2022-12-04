@@ -56,6 +56,7 @@
       <!-- Data source properties. -->
       <property name="org.kie.server.persistence.ds" value="java:jboss/datasources/PostgresDS"/>
       <property name="org.kie.server.persistence.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+		<property name="org.jbpm.ejb.timer.tx" value="true"/>
       <!-- Update end -->
   
    </system-properties>
@@ -179,13 +180,18 @@
                   <background-validation>false</background-validation>
                   <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
                </validation>
+               <pool>
+                  <min-pool-size>50</min-pool-size>
+                  <max-pool-size>150</max-pool-size>
+               </pool>
+
             </datasource>
             
             <drivers>
                <driver name="postgresql" module="com.postgresql">
                   <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                </driver>
-            </drivers>
+            </drivers>            
             <!-- Update end -->
 
          </datasources>
@@ -246,11 +252,23 @@
             <passivation-store name="infinispan" cache-container="ejb" max-size="10000"/>
          </passivation-stores>
          <async thread-pool-name="default"/>
+
+         <!-- ORIGINALE
          <timer-service thread-pool-name="default" default-data-store="default-file-store">
             <data-stores>
                <file-data-store name="default-file-store" path="timer-service-data" relative-to="jboss.server.data.dir"/>
             </data-stores>
          </timer-service>
+         -->
+
+     		<!-- Update begin -->
+         <timer-service thread-pool-name="default" default-data-store="db-store">
+            <data-stores>
+               <database-data-store name="db-store" datasource-jndi-name="jboss/datasources/PostgresDS"/>
+            </data-stores>
+         </timer-service>
+     		<!-- Update end -->
+
          <remote cluster="ejb" connectors="http-remoting-connector" thread-pool-name="default">
             <channel-creation-options>
                <option name="MAX_OUTBOUND_MESSAGES" value="1234" type="remoting"/>
