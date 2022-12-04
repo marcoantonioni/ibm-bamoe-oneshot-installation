@@ -148,7 +148,6 @@ PGPASSWORD=${KIE_PWD} psql -U ${KIE_USER} -h 127.0.0.1 -d ${BAMOE_DB_NAME} -c "\
 
 ## KieServer configuration
 
-
 ### JDBC drivers
 
 Download postgresql drivers
@@ -157,8 +156,58 @@ Download postgresql drivers
 curl -LO https://jdbc.postgresql.org/download/postgresql-42.5.1.jar
 ```
 
+use JBoss CLI to add jdbc driver
+
+```
+EAP_HOME=/home/marco/jboss-eap-7.4
+JAR_PATH=/home/marco/Downloads/postgresql-42.5.1.jar
+
+${EAP_HOME}/bin/jboss-cli.sh --commands="module add --name=com.postgresql --resources="${JAR_PATH}" --dependencies=javaee.api,sun.jdk,ibm.jdk,javax.api,javax.transaction.api"
+```
+
 
 ### Datasource & Driver
+
+Backup standalone.conf in 'jboss-eap-7.4/standalone/configuration'
+
+Change update 'standalone.conf' file with the following sections:
+
+In '<system-properties>' section set the datasource
+
+```
+    <!-- Data source properties. -->
+    <property name="org.kie.server.persistence.ds" value="java:jboss/datasources/PostgresDS"/>
+    <property name="org.kie.server.persistence.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+```
+
+In '<datasources>' section add datasource (connection url, credentials) and driver infos
+  
+```
+    <datasource jndi-name="java:jboss/datasources/PostgresDS" pool-name="PostgresDS">
+        <connection-url>jdbc:postgresql://localhost:5432/kieserver01</connection-url>
+        <driver>postgresql</driver>
+        <security>
+            <user-name>kieserver</user-name>
+            <password>kie01server</password>
+        </security>
+        <validation>
+            <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+            <validate-on-match>true</validate-on-match>
+            <background-validation>false</background-validation>
+            <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+        </validation>
+    </datasource>
+
+    <drivers>
+        <driver name="postgresql" module="com.postgresql">
+            <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+        </driver>
+    </drivers>
+```
+
+Start BAMOE server
+```
+```
 
 
 ## TBD Quartz tables
