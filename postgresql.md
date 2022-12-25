@@ -213,6 +213,3 @@ Click on 'PostgresDS' datasource the open 'public' schema.
 
 The tables are here.
 
-## Quartz tables
-
-TBD...
