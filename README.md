@@ -161,10 +161,10 @@ use the following parameters to specify
 
 ## Execute the standalone server 
 
-Use the command 
-
 ```
-<your-destination-installation-folder>/bin/standalone.sh
+export EAP_HOME=<your-destination-installation-folder>
+cd ${EAP_HOME}
+./bin/standalone.sh
 ```
 
 ## Follow the server log file 
