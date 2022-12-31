@@ -2,6 +2,10 @@
 
 To install IBM Business Automation Manager Open Editions in a single JVM in less than 60 seconds follow these instructions
 
+## Updates
+
+December 2022: EAP 7.4.8 / BAM 8.0.1
+
 ## Prerequisites
 
 A JVM, use standard JVM installation for your linux box, in a RH box use the command
