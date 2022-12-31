@@ -19,8 +19,6 @@ CONFIG_SERVICE=$(echo ${CONFIG_SERVICE} | awk '{print tolower($0)}')
 REMOVE_TEMP=${REMOVE_TEMP:0:1}
 CONFIG_SERVICE=${CONFIG_SERVICE:0:1}
 
-echo "=== Installing as user '"$USER"' in folder "${EAP_HOME}
-
 # echo "Property file: ${PROPS_FILE}";
 # echo "Remove temporary installation folder: ${REMOVE_TEMP}";
 # echo "Configure service: ${CONFIG_SERVICE}";
@@ -40,6 +38,8 @@ else
         exit
     fi
 fi
+
+echo "=== Installing as user '"$USER"' in folder "${EAP_HOME}
 
 function dumpEnvVars () {
     echo "============= ENV VARs ============="
@@ -111,7 +111,12 @@ fi
 echo "=== Extracting EAP binaries"
 mkdir -p ${INST_BASE_DIR}/tempinst
 unzip -o -q ${INST_SOURCE_EAP} -d ${INST_BASE_DIR}/tempinst 
-mv --force ${INST_BASE_DIR}/tempinst/${EAP_EXPAND_FOLDER} ${INST_BASE_DIR}
+
+# changed
+#mv --force ${INST_BASE_DIR}/tempinst/${EAP_EXPAND_FOLDER} ${INST_BASE_DIR}
+mkdir -p ${EAP_HOME}
+mv --force ${INST_BASE_DIR}/tempinst/${EAP_EXPAND_FOLDER}/* ${EAP_HOME}/
+# -------
 
 echo "=== Updating EAP configuration"
 cp ${EAP_HOME}/bin/init.d/jboss-eap.conf ${EAP_HOME}/bin/init.d/jboss-eap.conf.original
