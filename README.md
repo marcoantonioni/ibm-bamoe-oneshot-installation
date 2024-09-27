@@ -210,3 +210,13 @@ Uninstall the product identied by properties file and force without asking confi
 ## Conclusion
 
 You now have a basic environment for developing BPMN and DMN applications with IBM Business Automation Manager Open Editions.
+
+## Useful links
+
+JBoss patches
+
+https://access.redhat.com/solutions/2898471
+
+https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=patches&version=7.4
+
+https://access.redhat.com/solutions/625683

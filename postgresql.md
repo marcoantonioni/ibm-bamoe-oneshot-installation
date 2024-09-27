@@ -120,6 +120,9 @@ KIE_USER=kieserver
 KIE_PWD=kie01server
 BAMOE_DB_NAME=kieserver01
 
+PGPASSWORD=${KIE_PWD} psql -U ${KIE_USER} -h 127.0.0.1 -d postgres -c "drop database IF EXISTS ${BAMOE_DB_NAME};"
+PGPASSWORD=${KIE_PWD} psql -U ${KIE_USER} -h 127.0.0.1 -d postgres -c "\l+"
+
 PGPASSWORD=${KIE_PWD} psql -U ${KIE_USER} -h 127.0.0.1 -d postgres -c "create database ${BAMOE_DB_NAME};"
 
 PGPASSWORD=${KIE_PWD} psql -U ${KIE_USER} -h 127.0.0.1 -d ${BAMOE_DB_NAME} -c "comment on database ${BAMOE_DB_NAME} is 'BAMOE Database';"
